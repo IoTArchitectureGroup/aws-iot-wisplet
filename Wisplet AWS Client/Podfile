@@ -1,0 +1,10 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '7.0'
+
+
+target 'Wisplet AWS Client' do
+
+pod 'AWSIoT', '~> 2.3.2'
+
+end
+

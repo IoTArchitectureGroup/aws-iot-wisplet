@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>Wisplet AWS Client.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>CD6A9D1D1CC881FC00D8919F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CD6A9D361CC881FC00D8919F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CD6A9D411CC881FC00D8919F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
