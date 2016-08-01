@@ -32,6 +32,39 @@ At a high level, the steps you’ll have to go through to run the app in conjunc
 
 When building the sample iOS app, remember that the AWS IoT SDK for iOS gets installed via CocoaPods, so you will need to run **pod install** after downloading the code.  See the [AWS SDK iOS Sample](https://github.com/awslabs/aws-sdk-ios-samples/tree/master/IoT-Sample/Swift) for more detailed instructions.  You will also need to launch from the **Wisplet AWS Client.xcworkspace** file instead of the **.xcodeproj** in Xcode.
 
+## Connecting Wisplet to your AWS Instance
+The Wisplet comes pre-configured to connect to the IoT Architecture Group's AWS instance.  To have it connect to your own AWS instance, you will need to upload your AWS certificates to it.
+
+Power up the Wisplet eval kit and press-and-hold the WiFi config button for five seconds.  This will make the Wisplet operate in Access Point mode (it will operate as an access point to which you can connect from your laptop).
+
+Then connect your computer to the WiFi Access Point the Wisplet presents.  This will be named 'IoTAG-...' where the last part is the MAC address of your Wisplet.
+
+Once connected, load the config web page by entering URL http://device.config or http://172.18.0.1
+
+![Wisplet device.config page](Wisplet AWS Client/wisplet-device-config-page.png)
+
+If you have not already done so, this is the page you will use to configure the Wisplet to attach to your home or office WiFi network when the Wisplet is NOT running in Access Point Mode.  Choose 'Wi-Fi Setup' to do that if you have not already done so.  The Wisplet will restart, stop running in Access Point Mode, and will attach as a WiFi client to your WiFi network, and attempt to connect to AWS.
+
+By default--as mentioned above--it will be connecting to the IoT Architecture Group's AWS instance.
+
+To configure to attach to YOUR AWS instance, press-and-hold the WiFi config button on the Wisplet kit again, and again connect to the Access Point the Wisplet presents at URL http://device.config or http://172.18.0.1
+
+This time, choose 'Custom Server' (the button at the bottom of the page).
+
+You will then see this page:
+
+![Wisplet AWS instance config](Wisplet AWS Client/wisplet-device-config-custom-server-page.png)
+
+You will need the certificate, the private key, and the root CA files for your AWS instance.  Navigate to these files each, after pressing the appropriate button, and let your browser upload them to the Wisplet.  It is very important to have no extra white-space after the content of those file.  Specifically, after the end of the last line of text, you should have only a CR/LF.  In other words, when viewed in a text editor, your cursor should be at the start of the FIRST EMPTY LINE after the last line of text, if you scroll to the bottom of the key or cert file.
+
+Fill in the Broker Address and Peer CN fields to match your AWS instance.  Set Keep-Alive to 20 minutes.
+
+Set the override value to 0 to connect to YOUR AWS instance.
+
+'Override' means 'override the custom cert and AWS instance configuration' and revert back (temporarily) to the IoT Architecture Group AWS instance.  So set override to 0 to point to your own instance.
+
+Should you need to point the Wisplet back to the IoT Architecture Group's instance (for example, to try one of the IoT Architecture Group's other examples, or to push new IoT rulesets to the Wisplet) you can temporarily do so by setting Override to 1 in this configuration page.  Doing so will NOT delete the config files and settings that you set for your own AWS instance, so you can switch back and forth between instances relatively easily, without needing to perform the cumbersome cert/key file uploads each time.
+
 ## Code overview
 The heart of the app is essentially three classes:
 

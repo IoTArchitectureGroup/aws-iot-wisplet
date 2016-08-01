@@ -8,7 +8,7 @@
 
 #import "HumiditySensor.h"
 
-#define HUMIDITY_SENSOR_PARAM_CODE @"2"
+#define HUMIDITY_SENSOR_PARAM_CODE @"1"
 
 @implementation HumiditySensor
 

@@ -8,7 +8,7 @@
 
 #import "PotentiometerSensor.h"
 
-#define POTENTIOMETER_SENSOR_PARAM_CODE @"5"
+#define POTENTIOMETER_SENSOR_PARAM_CODE @"4"
 
 @implementation PotentiometerSensor
 

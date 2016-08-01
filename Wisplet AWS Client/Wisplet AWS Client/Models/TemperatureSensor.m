@@ -8,7 +8,7 @@
 
 #import "TemperatureSensor.h"
 
-#define TEMPERATURE_SENSOR_PARAM_CODE @"1"
+#define TEMPERATURE_SENSOR_PARAM_CODE @"0"
 
 @implementation TemperatureSensor
 

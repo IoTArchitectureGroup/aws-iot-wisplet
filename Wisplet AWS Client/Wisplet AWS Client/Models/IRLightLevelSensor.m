@@ -8,7 +8,7 @@
 
 #import "IRLightLevelSensor.h"
 
-#define IR_LIGHT_SENSOR_PARAM_CODE @"4"
+#define IR_LIGHT_SENSOR_PARAM_CODE @"3"
 
 @implementation IRLightLevelSensor
 

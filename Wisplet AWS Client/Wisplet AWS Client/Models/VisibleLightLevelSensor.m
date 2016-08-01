@@ -8,7 +8,7 @@
 
 #import "VisibleLightLevelSensor.h"
 
-#define VISIBLE_LIGHT_SENSOR_PARAM_CODE @"3"
+#define VISIBLE_LIGHT_SENSOR_PARAM_CODE @"2"
 
 @implementation VisibleLightLevelSensor
 
