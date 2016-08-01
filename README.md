@@ -43,11 +43,11 @@ Once connected, load the config web page by entering URL http://device.config or
 
 ![Wisplet device.config page](Wisplet AWS Client/wisplet-device-config-page.png)
 
-If you have not already done so, this is the page you will use to configure the Wisplet to attach to your home or office WiFi network when the Wisplet is NOT running in Access Point Mode.  Choose 'Wi-Fi Setup' to do that if you have not already done so.  The Wisplet will restart, stop running in Access Point Mode, and will attach as a WiFi client to your WiFi network, and attempt to connect to AWS.
+This is the page you will use to configure the Wisplet to attach to your home or office WiFi network, when the Wisplet is NOT running in Access Point Mode.  Choose 'Wi-Fi Setup' to do that if you have not already done so and follow instructions there to choose your local WiFi network and provide the password for it.  The Wisplet will restart, will stop running in Access Point Mode, and will attach as a WiFi client to your WiFi network, and attempt to connect to AWS.
 
 By default--as mentioned above--it will be connecting to the IoT Architecture Group's AWS instance.
 
-To configure to attach to YOUR AWS instance, press-and-hold the WiFi config button on the Wisplet kit again, and again connect to the Access Point the Wisplet presents at URL http://device.config or http://172.18.0.1
+To configure to attach to YOUR AWS instance, press-and-hold the WiFi config button on the Wisplet kit again, and once again connect to the Access Point the Wisplet presents at URL http://device.config or http://172.18.0.1
 
 This time, choose 'Custom Server' (the button at the bottom of the page).
 
@@ -59,11 +59,13 @@ You will need the certificate, the private key, and the root CA files for your A
 
 Fill in the Broker Address and Peer CN fields to match your AWS instance.  Set Keep-Alive to 20 minutes.
 
-Set the override value to 0 to connect to YOUR AWS instance.
+Set the 'Override' value to 1 (yes) to connect to YOUR AWS instance.
 
-'Override' means 'override the custom cert and AWS instance configuration' and revert back (temporarily) to the IoT Architecture Group AWS instance.  So set override to 0 to point to your own instance.
+The 'Override' field provides an easy way to switch between using the IoT Architecture Group's AWS instance and your own AWS instance, should you later need to temporarily switch back to the IoT Architecture Group's instance.
 
-Should you need to point the Wisplet back to the IoT Architecture Group's instance (for example, to try one of the IoT Architecture Group's other examples, or to push new IoT rulesets to the Wisplet) you can temporarily do so by setting Override to 1 in this configuration page.  Doing so will NOT delete the config files and settings that you set for your own AWS instance, so you can switch back and forth between instances relatively easily, without needing to perform the cumbersome cert/key file uploads each time.
+'Override' means 'override the Wisplet's DEFAULT AWS instance configuration' (which points to the IoT Architecture Group AWS instance).  So, set Override to 1 to point to your own instance (once you have uploaded the certs and key and provided the other necessary configuration info).
+
+Should you need to point the Wisplet back to the IoT Architecture Group's instance (for example, to try one of the IoT Architecture Group's other examples, or to push new IoT rulesets to the Wisplet) you can temporarily do so by setting Override to 0 in this configuration page.  Doing so will NOT delete the config files and settings that you set for your own AWS instance, so you can switch back and forth between instances relatively easily, without needing to perform the cumbersome cert/key file uploads each time.
 
 ## Code overview
 The heart of the app is essentially three classes:
