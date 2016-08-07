@@ -35,11 +35,11 @@ When building the sample iOS app, remember that the AWS IoT SDK for iOS gets ins
 ## Connecting Wisplet to your AWS Instance
 The Wisplet comes pre-configured to connect to the IoT Architecture Group's AWS instance.  To have it connect to your own AWS instance, you will need to upload your AWS certificates to it.
 
-Power up the Wisplet eval kit and press-and-hold the WiFi config button for five seconds.  This will make the Wisplet operate in Access Point mode (it will operate as an access point to which you can connect from your laptop).
+Power up the Wisplet eval kit and press-and-hold the WiFi config button for five seconds.  (The WiFi config button is the blue button to the left of the three alphanumeric LEDs.) This will make the Wisplet operate in Access Point mode (it will operate as an access point to which you can connect from your laptop).
 
-Then connect your computer to the WiFi Access Point the Wisplet presents.  This will be named 'IoTAG-...' where the last part is the MAC address of your Wisplet.
+Then connect your computer to the WiFi Access Point the Wisplet presents.  This will have a name starting with '**IoTAG-Config-**' (followed by the MAC address of your Wisplet).
 
-Once connected, load the config web page by entering URL http://device.config or http://172.18.0.1
+Once connected, enter the access point password **sileng3550** then load the config web page by entering URL http://device.config or http://172.18.0.1
 
 ![Wisplet device.config page](Wisplet AWS Client/wisplet-device-config-page.png)
 
