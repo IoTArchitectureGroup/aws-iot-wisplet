@@ -2,7 +2,7 @@
 platform :ios, '7.0'
 
 
-target 'Wisplet AWS Client' do
+target 'WispletAWSClient' do
 
 pod 'AWSIoT', '~> 2.3.2'
 

@@ -28,7 +28,7 @@ At a high level, the steps you’ll have to go through to run the app in conjunc
 - Create your own AWS instance with AWS IoT.
 - Create a ‘Thing’ to represent your Wisplet Eval Kit, in the AWS console, and generate a certificate for it.
 - Load your certificate files (private key file and certificate authority file) on your Wisplet, by connecting to it while it is running as a WiFi access point.  You will connect to it as an access point, then upload the two files using your computer's web browser.
-- Create an **unauthenticated user pool**, to allow the iOS app to connect without require loading certs in the app too (although you can install certs in an iOS app if you prefer that to using an unauthorized user pool).
+- Create an **Identity Pool with support for unauthenticated identities**, to allow the iOS app to connect without require loading certs in the app too (although you can install certs in an iOS app if you prefer that to using an unauthorized user pool).
 - Add your AWS instance’s region, Cognito identity pool id, and AWS IoT policy name to **Constants.swift**, and add your Wisplet’s MAC address to **Constants.h**
 
 When building the sample iOS app, remember that the AWS IoT SDK for iOS gets installed via CocoaPods, so you will need to run **pod install** after downloading the code.  See the [AWS SDK iOS Sample](https://github.com/awslabs/aws-sdk-ios-samples/tree/master/IoT-Sample/Swift) for more detailed instructions.  You will also need to launch from the **Wisplet AWS Client.xcworkspace** file instead of the **.xcodeproj** in Xcode.
@@ -38,15 +38,15 @@ Like many IoT products today, the Wisplet Eval Kit must first be configured to b
 
 Begin by powering up the Wisplet Eval Kit using the included USB cable and plug.
 
-The Wisplet Eval Kit is made up of two circuit boards: the Wisplet board (the square board on the left side of the kit) and the sensor board (the rectangular board on the right side of the kit).  Each time you power up the Wisplet Eval Kit, the 3-character alphanumeric LEDs will show the firmware version number of the sensor board.  At the time of this writing, the latest version is version 19, so the LEDs display 'F19'.  This may differ from what your LEDs display, but the number is purely informational.
+The Wisplet Eval Kit is made up of two circuit boards: the **Wisplet board** (the square board on the left side of the kit) and the **sensor board** (the rectangular board on the right side of the kit).  Each time you power up the Wisplet Eval Kit, the 3-character alphanumeric LEDs will show the **firmware version number** of the sensor board.  At the time of this writing, the latest version is version 19, so the LEDs display '**F19**'.  This may differ from what your LEDs display, but the number is purely informational.
 
-To the left of these alphanumeric LEDs, on the sensor board, you will see a small blue button labelled 'CONFIG', and--to the left of that button--an LED labelled 'Wi-Fi' which will be blinking red, to indicate that the kit does NOT have a WiFi connection.
+To the left of these alphanumeric LEDs, on the sensor board, you will see a small blue button labelled '**CONFIG**', and--to the left of that button--an LED labelled '**Wi-Fi**' which will be blinking red, to indicate that the kit does NOT have a WiFi connection.
 
 Press-and-hold the WiFi config button for three seconds.  The Wi-Fi LED will stop blinking.  This will make the Wisplet operate in Access Point mode (it will operate as an access point to which you can connect from your laptop, smartphone, or tablet).
 
-Using the WiFi control on your computer (or smartphone, or tablet) connect to the WiFi Access Point the Wisplet presents.  This will have a name starting with '**IoTAG-Config-**' (followed by the MAC address of your Wisplet).
+Using the WiFi control on your computer (or smartphone, or tablet) connect to the WiFi Access Point the Wisplet presents.  This will have a name starting with '**IOTAG-Config-**' (followed by the MAC address of your Wisplet).
 
-Once connected, enter the access point password **sileng3550** then load the config web page by entering URL http://device.config or http://172.18.0.1
+Once connected, enter the access point password **sileng3550** then load the config web page by entering URL **http://device.config** or **http://172.18.0.1**
 
 ![Wisplet device.config page](Wisplet AWS Client/wisplet-device-config-page.png)
 
@@ -59,13 +59,13 @@ Once connected to your local WiFi network and to the internet, the Wisplet Eval 
 ## Verifying that your Wisplet is connecting to the IoT Architecture Group's AWS instance
 Although you will eventually re-configure the Wisplet Eval Kit to connect to your own AWS instance, you can at this point see it in operation while it is connected to the IoT Architecture Group's AWS instance.
 
-A free app exists for iOS and Android that you can use.  Search for 'Wisplet' on either the Apple App Store or the Android Google Play store from your device and download the app.  (Note that this is NOT the app whose code is in this github repository.)
+A free app exists for iOS and Android that you can use.  **Search for 'Wisplet' on either the Apple App Store or the Android Google Play store from your device and download the app.**  (Note that this is NOT the app whose code is in this github repository.)
 
 ![Wisplet app icon](documentation/wisplet_logo-100.png)
 
-Create an account using the app.  A confirmation e-mail will be sent to the e-mail address you used.  Click the confirmation link there to activate your account.  Then log into your account using the app.
+Create an account using the app.  **A confirmation e-mail will be sent to the e-mail address you used.  Click the confirmation link there to activate your account.**  Then log into your account using the app.
 
-Next you will need to add your Wisplet Eval Kit device to your account in the app.  Open the side-bar menu on the left side of the app screen.  In the 'Device ID' field of the resulting form, enter the MAC ID from the sticker on your Wisplet Eval Kit.  You can use either capital or lower-case letters for the alphabetic characters.
+Next **you will need to add your Wisplet Eval Kit device to your account in the app**.  Open the side-bar menu on the left side of the app screen.  In the 'Device ID' field of the resulting form, enter the MAC ID from the sticker on your Wisplet Eval Kit.  You can use either capital or lower-case letters for the alphabetic characters.
 
 Enter a meaningful name for the Wisplet Eval Kit in the 'Device name' field, then press 'Submit'.
 
@@ -94,32 +94,33 @@ This server plus the associated apps are merely a simple example to help demonst
 ## Connecting Wisplet to your AWS Instance
 The Wisplet Eval Kit comes pre-configured to connect to the IoT Architecture Group's AWS instance.  When you are ready to connect the Wisplet Eval Kit to your own AWS instance, you will need to upload your AWS certificates to it.
 
-To configure to attach to YOUR AWS instance, press-and-hold the WiFi config button on the Wisplet kit again, and once again connect to the Access Point the Wisplet presents at URL http://device.config or http://172.18.0.1
+You will need the certificate, the private key, and the root CA files for your AWS instance.  
 
-This time, choose 'Custom Server' (the button at the bottom of the page).
+You can generate and download these using Amazon's web interface at **https://aws.amazon.com**
+
+If you have installed the AWS CLI (command line interface) tool on your computer, you can generate and download these files using these AWS CLI commands:
+
+* `aws --output text iot describe-endpoint`
+* `aws iot create-keys-and-certificate --set-as-active --certificate-pem-outfile cert.pem --public-key-outfile public.key --private-key-outfile private.key`
+* `aws iot attach-principal-policy --policy-name test-thing-1-policy --principal arn:aws:iot:us-east-1:xxxxxxxxxxxxx:cert/yyyyyyyyyyyyyyyyyyyyyyyy`
+* `curl -o rootca.pem https://www.symantec.com/content/en/us/enterprise/verisign/roots/VeriSign-Class%203-Public-Primary-Certification-Authority-G5.pem`
+
+Once you have these files on your computer you are ready to connect to the Wisplet Wi-Fi access point and web interface, navigate to each of these files in turn, and let your browser upload them to the Wisplet.
+
+To connect to the Wisplet in WiFi access-point mode, press-and-hold the WiFi config button on the Wisplet kit again, and once again connect to the Access Point the Wisplet presents at URL **http://device.config** or **http://172.18.0.1**
+
+This time, choose '**Custom Server**' (the button at the bottom of the page).
 
 You will then see this page:
 
 ![Wisplet AWS instance config](Wisplet AWS Client/wisplet-device-config-custom-server-page.png)
 
-You will need the certificate, the private key, and the root CA files for your AWS instance.  
 
-You can generate and download these using Amazon's web interface at https://aws.amazon.com
+**It is very important to have no extra white-space after the content of those file.**  Specifically, after the end of the last line of text, you should have only a CR/LF.  In other words, when viewed in a text editor, your cursor should be at the start of the FIRST EMPTY LINE after the last line of text, if you scroll to the bottom of the key or cert file.
 
-If you have installed the AWS CLI (command line interface) tool on your computer, you can generate and download these files using these AWS CLI commands:
+Fill in the Broker Address and Peer CN fields to match your AWS instance.  **The Broker Address is obtained from the describe-endpoint command.** Set Keep-Alive to 20 minutes.
 
-* aws --output text iot describe-endpoint
-* aws iot create-keys-and-certificate --set-as-active --certificate-pem-outfile cert.pem --public-key-outfile public.key --private-key-outfile private.key
-* aws iot attach-principal-policy --policy-name test-thing-1-policy --principal arn:aws:iot:us-east-1:xxxxxxxxxxxxx:cert/yyyyyyyyyyyyyyyyyyyyyyyy
-* curl -o rootca.pem https://www.symantec.com/content/en/us/enterprise/verisign/roots/VeriSign-Class%203-Public-Primary-Certification-Authority-G5.pem
-
-Once you have these files on your computer and have connected to the Wisplet Wi-Fi access point and web interface, navigate to each of these files in turn and let your browser upload them to the Wisplet.
-
-It is very important to have no extra white-space after the content of those file.  Specifically, after the end of the last line of text, you should have only a CR/LF.  In other words, when viewed in a text editor, your cursor should be at the start of the FIRST EMPTY LINE after the last line of text, if you scroll to the bottom of the key or cert file.
-
-Fill in the Broker Address and Peer CN fields to match your AWS instance.  Set Keep-Alive to 20 minutes.
-
-Set the 'Override' value to 1 (yes) to connect to YOUR AWS instance.
+Set the '**Override**' value to 1 (yes) to connect to YOUR AWS instance.
 
 The 'Override' field provides an easy way to switch between using the IoT Architecture Group's AWS instance and your own AWS instance, should you later need to temporarily switch back to the IoT Architecture Group's instance.
 
@@ -127,7 +128,7 @@ The 'Override' field provides an easy way to switch between using the IoT Archit
 
 Note that the Safari browser is not able to upload files through this web interface, so if you are using a Mac, please use a different browser like Chrome or Firefox.
 
-Should you need to point the Wisplet back to the IoT Architecture Group's instance (for example, to try one of the IoT Architecture Group's other examples, or to push new IoT rulesets to the Wisplet) you can temporarily do so by setting Override to 0 in this configuration page.  Doing so will NOT delete the config files and settings that you set for your own AWS instance, so you can switch back and forth between instances relatively easily, without needing to perform the cumbersome cert/key file uploads each time.
+**Should you need to point the Wisplet back to the IoT Architecture Group's instance** (for example, to try one of the IoT Architecture Group's other examples, or to push new IoT rulesets to the Wisplet) **you can temporarily do so by setting Override to 0 in this configuration page**.  Doing so will NOT delete the config files and settings that you set for your own AWS instance, so you can switch back and forth between instances relatively easily, without needing to perform the cert/key file uploads again each time.
 
 ## Code overview
 The heart of the app is essentially three classes:
