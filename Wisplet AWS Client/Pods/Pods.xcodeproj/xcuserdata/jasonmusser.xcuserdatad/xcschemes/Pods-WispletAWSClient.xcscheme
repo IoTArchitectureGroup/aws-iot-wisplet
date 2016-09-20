@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '67868CC09A55C9105FF6E147'
-               BlueprintName = 'Pods-Wisplet AWS Client'
+               BlueprintIdentifier = '3819E33C0B107C0420FF5BA80A85C9FF'
+               BlueprintName = 'Pods-WispletAWSClient'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libPods-Wisplet AWS Client.a'>
+               BuildableName = 'libPods-WispletAWSClient.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

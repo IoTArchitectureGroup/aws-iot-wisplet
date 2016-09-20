@@ -229,15 +229,22 @@
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+#if TARGET_OS_SIMULATOR
+    [self alertThatWontWorkInSimulator];
+#endif
+}
+
 -(void)setupLabels {
     WispletDevice *wisplet = [[self appDelegate] getWispletDevice];
     
-    self.temperatureLabel.text = [[wisplet getTemperatureSensor] getParameterName];
-    self.humidityLabel.text = [[wisplet getHumiditySensor] getParameterName];
-    self.visibleLightLabel.text = [[wisplet getVisibleLightSensor] getParameterName];
-    self.irLightLabel.text = [[wisplet getIrLightSensor] getParameterName];
-    self.potentiometerLabel.text = [[wisplet getPotentiometerSensor] getParameterName];
-    self.statLabel.text = [[wisplet getStatSensor] getParameterName];
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%@ (read-only)", [[wisplet getTemperatureSensor] getParameterName]];
+    self.humidityLabel.text = [NSString stringWithFormat:@"%@ (read-only)", [[wisplet getHumiditySensor] getParameterName]];
+    self.visibleLightLabel.text = [NSString stringWithFormat:@"%@ (read-only)", [[wisplet getVisibleLightSensor] getParameterName]];
+    self.irLightLabel.text = [NSString stringWithFormat:@"%@ (read-only)", [[wisplet getIrLightSensor] getParameterName]];
+    self.potentiometerLabel.text = [NSString stringWithFormat:@"%@ (read-only)", [[wisplet getPotentiometerSensor] getParameterName]];
+    self.statLabel.text = [NSString stringWithFormat:@"%@ (read/write)", [[wisplet getStatSensor] getParameterName]];
 }
 
 -(void) setupValueSliders {
@@ -354,6 +361,7 @@
     // User can only move the stat slider, to send an integer down to the sensor
     // board LED.
     float sliderValue;
+    /*
     if (slider == self.humiditySlider ||
         slider == self.visibleLightLevelSlider ||
         slider == self.irLightLevelSlider) {
@@ -362,10 +370,13 @@
                slider == self.statSetSlider) {
         sliderValue = value;
     }
+     */
+    sliderValue = value;
     
-    Sensor *sensorModel;
-    WispletDevice *wisplet = [[self appDelegate] getWispletDevice];
+    //Sensor *sensorModel;
+    //WispletDevice *wisplet = [[self appDelegate] getWispletDevice];
     
+    /*
     if (slider == self.temperatureSlider) {
         sensorModel = [wisplet getTemperatureSensor];
     } else if (slider == self.humiditySlider) {
@@ -377,6 +388,7 @@
     } else if (slider == self.statSetSlider) {
         sensorModel = [wisplet getStatSensor];
     }
+     */
     
     sliderValue = roundf(sliderValue);
     NSString *s = [slider.numberFormatter stringFromNumber:@(value)];
@@ -621,6 +633,35 @@
     {
         [self.revealViewController revealToggle:sender];
     }
+}
+
+#pragma mark -- Extra
+
+-(void)alertThatWontWorkInSimulator
+{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Must be run on device"
+                                                                   message:@"Cannot connect securely from the simulator. You must run this on a real device. See URL in the Xcode console for more information."
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+        
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                                  [self dismissViewControllerAnimated:YES completion:nil];
+                                                              }];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    
+    NSLog(@"\n***\n***\nBecause of an issue with calling Apple’s SecKeyGeneratePair in the iOS simulator, this sample app can only connect to the cloud when run on an actual device. See https://forums.developer.apple.com/message/180578?tstart=0#180578 for more information\n***\n***");
+    
+    /*
+     https://forums.developer.apple.com/message/180578?tstart=0#180578
+     eskimo
+     Sep 16, 2016 10:08 AM
+     (in response to Kensei)
+     Folks, if you’re experiencing -34018 errors in the simulator, this is not the right thread for you.  It turns out that a -34018 error in the simulator is related to changes in how the simulator deals with entitlements.  You can hop over to this thread for the details.
+     OTOH, if you’re still experiencing intermittent -34018 errors from user devices in the field, all the advice I’ve posted earlier on this thread still applies.
+     Share and Enjoy
+     */
 }
 
 - (AppDelegate *)appDelegate

@@ -1154,6 +1154,9 @@ const int FrontViewPositionNone = 0xff;
 
 - (BOOL)_panGestureShouldBegin
 {
+    return NO;
+    
+    /*
     // forbid gesture if the initial translation is not horizontal
     UIView *recognizerView = _panGestureRecognizer.view;
     CGPoint translation = [_panGestureRecognizer translationInView:recognizerView];
@@ -1170,7 +1173,7 @@ const int FrontViewPositionNone = 0xff;
     CGFloat width = recognizerView.bounds.size.width;
     
     BOOL draggableBorderAllowing = (
-         /*_frontViewPosition != FrontViewPositionLeft ||*/ _draggableBorderWidth == 0.0f ||
+         / *_frontViewPosition != FrontViewPositionLeft ||* / _draggableBorderWidth == 0.0f ||
          (_rearViewController && xLocation <= _draggableBorderWidth) ||
          (_rightViewController && xLocation >= (width - _draggableBorderWidth)) );
     
@@ -1180,6 +1183,7 @@ const int FrontViewPositionNone = 0xff;
 
     // allow gesture only within the bounds defined by the draggableBorderWidth property
     return draggableBorderAllowing && !translationForbidding ;
+    */
 }
 
 

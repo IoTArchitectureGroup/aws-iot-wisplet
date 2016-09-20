@@ -27,138 +27,139 @@ class AWSConnection: NSObject {
     
     // Quick hack to push this to AppDelegate which pushes to a display delegate 
     // (SensorBoardViewController) which THEN shows it in a text label.
-    func setConnectionStatusString(msg: NSString)
+    func setConnectionStatusString(_ msg: NSString)
     {
         mqttStatus = msg as String
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.setMqttConnectionStatus(msg as String)
     }
     
     func connect() {
         
-        func mqttEventCallback( status: AWSIoTMQTTStatus )
+        func mqttEventCallback( _ status: AWSIoTMQTTStatus )
         {
-            dispatch_async( dispatch_get_main_queue()) {
-                print("connection status = \(status.rawValue)")
+            DispatchQueue.main.async {
+                print("AWSConnection.swift connection status = \(status.rawValue)")
                 switch(status)
                 {
-                case .Connecting:
+                case .connecting:
                     self.setConnectionStatusString("Connecting...")
                     print( self.mqttStatus )
                     
-                case .Connected:
+                case .connected:
                     self.setConnectionStatusString("Connected")
                     print( self.mqttStatus )
-                    let uuid = NSUUID().UUIDString;
+                    let uuid = UUID().uuidString;
                     
                     // Get SCAppDelegate, store UUID there
-                    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.setAppUUID(uuid)
                     print(uuid)
                     
-                case .Disconnected:
+                case .disconnected:
                     self.setConnectionStatusString("Disconnected")
                     print( self.mqttStatus )
                     
-                case .ConnectionRefused:
+                case .connectionRefused:
                     self.setConnectionStatusString("Connection Refused")
                     print( self.mqttStatus )
                     
-                case .ConnectionError:
+                case .connectionError:
                     self.setConnectionStatusString("Connection Error")
                     print( self.mqttStatus )
                     
-                case .ProtocolError:
+                case .protocolError:
                     self.setConnectionStatusString("Protocol Error")
                     print( self.mqttStatus )
                     
                 default:
                     self.setConnectionStatusString("Unknown State")
-                    print("unknown state: \(status.rawValue)")
+                    print("AWSConnection.swift unknown state: \(status.rawValue)")
                     
                 }
-                NSNotificationCenter.defaultCenter().postNotificationName( "connectionStatusChanged", object: self )
+                NotificationCenter.default.post( name: Notification.Name(rawValue: "connectionStatusChanged"), object: self )
             }
             
         }
         
         if (connected == false)
         {
-            let defaults = NSUserDefaults.standardUserDefaults()
-            var certificateId = defaults.stringForKey( "certificateId")
+            let defaults = UserDefaults.standard
+            var certificateId = defaults.string( forKey: "certificateId")
             
             if (certificateId == nil)
             {
-                print ("No certificate available, creating one...")
+                print ("AWSConnection.swift: No certificate available, creating one...")
                 //
                 // Now create and store the certificate ID in NSUserDefaults
                 //
                 let csrDictionary = [ "commonName":CertificateSigningRequestCommonName, "countryName":CertificateSigningRequestCountryName, "organizationName":CertificateSigningRequestOrganizationName, "organizationalUnitName":CertificateSigningRequestOrganizationalUnitName ]
                 
-                self.iotManager.createKeysAndCertificateFromCsr(csrDictionary, callback: {  (response ) -> Void in
+                self.iotManager.createKeysAndCertificate(fromCsr: csrDictionary, callback: {  (response ) -> Void in
                     if (response != nil)
                     {
-                        defaults.setObject(response.certificateId, forKey:"certificateId")
-                        defaults.setObject(response.certificateArn, forKey:"certificateArn")
-                        certificateId = response.certificateId
-                        print("response: [\(response)]")
-                        let uuid = NSUUID().UUIDString;
+                        defaults.set(response?.certificateId, forKey:"certificateId")
+                        defaults.set(response?.certificateArn, forKey:"certificateArn")
+                        certificateId = response?.certificateId
+                        print("AWSConnection.swift response: [\(response)]")
+                        let uuid = UUID().uuidString;
                         
                         let attachPrincipalPolicyRequest = AWSIoTAttachPrincipalPolicyRequest()
-                        attachPrincipalPolicyRequest.policyName = PolicyName
-                        attachPrincipalPolicyRequest.principal = response.certificateArn
+                        attachPrincipalPolicyRequest?.policyName = PolicyName
+                        attachPrincipalPolicyRequest?.principal = response?.certificateArn
                         //
                         // Attach the policy to the certificate
                         //
-                        self.iot.attachPrincipalPolicy(attachPrincipalPolicyRequest).continueWithBlock { (task) -> AnyObject? in
+                        self.iot.attachPrincipalPolicy(attachPrincipalPolicyRequest!).continue( { (task) -> AnyObject? in
                             if let error = task.error {
-                                print("failed: [\(error)]")
+                                print("AWSConnection.swift failed: [\(error)]")
                             }
                             if let exception = task.exception {
-                                print("failed: [\(exception)]")
+                                print("AWSConnection.swift failed: [\(exception)]")
                             }
-                            print("result: [\(task.result)]")
+                            print("AWSConnection.swift result: [\(task.result)]")
                             //
                             // Connect to the AWS IoT platform
                             //
                             if (task.exception == nil && task.error == nil)
                             {
-                                let delayTime = dispatch_time( DISPATCH_TIME_NOW, Int64(2*Double(NSEC_PER_SEC)))
-                                dispatch_after( delayTime, dispatch_get_main_queue()) {
+                                let delayTime = DispatchTime.now() + Double(Int64(2*Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                                DispatchQueue.main.asyncAfter( deadline: delayTime) {
                                     //self.logTextView.text = "Using certificate: \(certificateId!)"
-                                    self.iotDataManager.connectWithClientId( uuid, cleanSession:true, certificateId:certificateId, statusCallback: mqttEventCallback)
+                                    self.iotDataManager.connect( withClientId: uuid, cleanSession:true, certificateId:certificateId, statusCallback: mqttEventCallback)
                                 }
                             }
                             return nil
-                        }
+                        } )
                     }
                     else
                     {
-                        print("Unable to create keys and/or certificate, check values in Constants.swift")
+                        print("AWSConnection.swift: Unable to create keys and/or certificate, check values in Constants.swift")
                     }
                 } )
             }
             else
             {
-                let uuid = NSUUID().UUIDString;
+                let uuid = UUID().uuidString;
                 
                 //
                 // Connect to the AWS IoT service
                 //
-                iotDataManager.connectWithClientId( uuid, cleanSession:true, certificateId:certificateId, statusCallback: mqttEventCallback)
+                iotDataManager.connect( withClientId: uuid, cleanSession:true, certificateId:certificateId, statusCallback: mqttEventCallback)
             }
         }
     }
     
     func disconnectFromMqttBroker()
     {
-        print("Disconnecting...");
+        print("AWSConnection.swift Disconnecting...");
         
-        dispatch_async( dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.rawValue), 0) ){
+        //DispatchQueue.global(priority: Int(DispatchQoS.QoSClass.userInitiated.rawValue)).async{
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated).async{
             if (self.iotDataManager == nil)
             {
-                self.iotDataManager = AWSIoTDataManager.defaultIoTDataManager()
+                self.iotDataManager = AWSIoTDataManager.default()
             }
             self.iotDataManager.disconnect();
             self.connected = false
@@ -175,13 +176,13 @@ class AWSConnection: NSObject {
         let credentialsProvider = AWSCognitoCredentialsProvider(regionType: AwsRegion, identityPoolId: CognitoIdentityPoolId)
         let configuration = AWSServiceConfiguration(region: AwsRegion, credentialsProvider: credentialsProvider)
         
-        AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
+        AWSServiceManager.default().defaultServiceConfiguration = configuration
         
-        iotManager = AWSIoTManager.defaultIoTManager()
-        iot = AWSIoT.defaultIoT()
+        iotManager = AWSIoTManager.default()
+        iot = AWSIoT.default()
         
-        iotDataManager = AWSIoTDataManager.defaultIoTDataManager()
-        iotData = AWSIoTData.defaultIoTData()
+        iotDataManager = AWSIoTDataManager.default()
+        iotData = AWSIoTData.default()
         
         connect()
     }

@@ -14,7 +14,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Wisplet AWS Client.xcscheme</key>
+		<key>Pods-WispletAWSClient.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -22,17 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>079E16BAF45818406D60BDE9EA332EAF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>515699F40387FB79381ECFFD0936DB4D</key>
+		<key>3819E33C0B107C0420FF5BA80A85C9FF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>752C15C5550C13D37EA2BDA7AA6FC2C5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FDEF52FA61F1B86145BAC6D1DC1C942A</key>
 		<dict>
 			<key>primary</key>
 			<true/>

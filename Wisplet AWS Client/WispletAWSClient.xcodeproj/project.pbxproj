@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		80226D872EDA574F32AC110F /* libPods-Wisplet AWS Client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C0B9BB5FB5F8BDB9C802D68 /* libPods-Wisplet AWS Client.a */; };
+		6E0315863904E17DD6E2E817 /* libPods-WispletAWSClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08C16FD1182D25B87A6BFB52 /* libPods-WispletAWSClient.a */; };
 		CD4103891CCEBCF300548764 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4103881CCEBCF300548764 /* AboutViewController.m */; };
 		CD41038B1CCEBEFA00548764 /* silicon_engines_200.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CD41038A1CCEBEFA00548764 /* silicon_engines_200.jpg */; };
 		CD6A9D231CC881FC00D8919F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6A9D221CC881FC00D8919F /* main.m */; };
@@ -59,7 +59,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3C0B9BB5FB5F8BDB9C802D68 /* libPods-Wisplet AWS Client.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Wisplet AWS Client.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		08C16FD1182D25B87A6BFB52 /* libPods-WispletAWSClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WispletAWSClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F843C4287BDF11C8A3DCB06 /* Pods-WispletAWSClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WispletAWSClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-WispletAWSClient/Pods-WispletAWSClient.release.xcconfig"; sourceTree = "<group>"; };
 		CD4103871CCEBCF300548764 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		CD4103881CCEBCF300548764 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		CD41038A1CCEBEFA00548764 /* silicon_engines_200.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = silicon_engines_200.jpg; sourceTree = "<group>"; };
@@ -117,8 +118,7 @@
 		CD6A9DAE1CCAE36F00D8919F /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		CD6A9DB01CCE578100D8919F /* StatSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatSensor.h; sourceTree = "<group>"; };
 		CD6A9DB11CCE578100D8919F /* StatSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatSensor.m; sourceTree = "<group>"; };
-		D5A6CCC2B9F0D18232A9F82F /* Pods-Wisplet AWS Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wisplet AWS Client.release.xcconfig"; path = "Pods/Target Support Files/Pods-Wisplet AWS Client/Pods-Wisplet AWS Client.release.xcconfig"; sourceTree = "<group>"; };
-		FC9958692AF12B722CB38D4C /* Pods-Wisplet AWS Client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wisplet AWS Client.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Wisplet AWS Client/Pods-Wisplet AWS Client.debug.xcconfig"; sourceTree = "<group>"; };
+		FE45A1CF672AEFDAB65D7A69 /* Pods-WispletAWSClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WispletAWSClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WispletAWSClient/Pods-WispletAWSClient.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,7 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80226D872EDA574F32AC110F /* libPods-Wisplet AWS Client.a in Frameworks */,
+				6E0315863904E17DD6E2E817 /* libPods-WispletAWSClient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,19 +147,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		22FD847472AD50AB129A95F2 /* Pods */ = {
+		33BE87575120DE771243556F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FC9958692AF12B722CB38D4C /* Pods-Wisplet AWS Client.debug.xcconfig */,
-				D5A6CCC2B9F0D18232A9F82F /* Pods-Wisplet AWS Client.release.xcconfig */,
+				FE45A1CF672AEFDAB65D7A69 /* Pods-WispletAWSClient.debug.xcconfig */,
+				7F843C4287BDF11C8A3DCB06 /* Pods-WispletAWSClient.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		4F4864C07C204BF50B579107 /* Frameworks */ = {
+		491EFF83904A610CF6AEB609 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3C0B9BB5FB5F8BDB9C802D68 /* libPods-Wisplet AWS Client.a */,
+				08C16FD1182D25B87A6BFB52 /* libPods-WispletAWSClient.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -171,8 +171,8 @@
 				CD6A9D3A1CC881FC00D8919F /* Wisplet AWS ClientTests */,
 				CD6A9D451CC881FC00D8919F /* Wisplet AWS ClientUITests */,
 				CD6A9D1F1CC881FC00D8919F /* Products */,
-				22FD847472AD50AB129A95F2 /* Pods */,
-				4F4864C07C204BF50B579107 /* Frameworks */,
+				33BE87575120DE771243556F /* Pods */,
+				491EFF83904A610CF6AEB609 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -324,12 +324,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD6A9D4B1CC881FC00D8919F /* Build configuration list for PBXNativeTarget "WispletAWSClient" */;
 			buildPhases = (
-				E82BB5CE09F9420ED22175EB /* Check Pods Manifest.lock */,
+				409E1EA09A1B3752F1FC02E3 /* [CP] Check Pods Manifest.lock */,
 				CD6A9D1A1CC881FC00D8919F /* Sources */,
 				CD6A9D1B1CC881FC00D8919F /* Frameworks */,
 				CD6A9D1C1CC881FC00D8919F /* Resources */,
-				87A2CA3CDE1133B35295FEB2 /* Embed Pods Frameworks */,
-				3AE5508BBFEE26458D0CB3D5 /* Copy Pods Resources */,
+				2722E7B4B4DCB7A74E15D212 /* [CP] Embed Pods Frameworks */,
+				7A072F7D5F5361FF6C9B6F85 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -387,6 +387,8 @@
 				TargetAttributes = {
 					CD6A9D1D1CC881FC00D8919F = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = MZ25F59X25;
+						LastSwiftMigration = 0800;
 					};
 					CD6A9D361CC881FC00D8919F = {
 						CreatedOnToolsVersion = 7.3;
@@ -450,49 +452,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3AE5508BBFEE26458D0CB3D5 /* Copy Pods Resources */ = {
+		2722E7B4B4DCB7A74E15D212 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wisplet AWS Client/Pods-Wisplet AWS Client-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WispletAWSClient/Pods-WispletAWSClient-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		87A2CA3CDE1133B35295FEB2 /* Embed Pods Frameworks */ = {
+		409E1EA09A1B3752F1FC02E3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Wisplet AWS Client/Pods-Wisplet AWS Client-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E82BB5CE09F9420ED22175EB /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7A072F7D5F5361FF6C9B6F85 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WispletAWSClient/Pods-WispletAWSClient-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -666,30 +668,36 @@
 		};
 		CD6A9D4C1CC881FC00D8919F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC9958692AF12B722CB38D4C /* Pods-Wisplet AWS Client.debug.xcconfig */;
+			baseConfigurationReference = FE45A1CF672AEFDAB65D7A69 /* Pods-WispletAWSClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = MZ25F59X25;
 				INFOPLIST_FILE = "Wisplet AWS Client/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.WispletAWSClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Wisplet AWS Client/WispletAWSClient-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		CD6A9D4D1CC881FC00D8919F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D5A6CCC2B9F0D18232A9F82F /* Pods-Wisplet AWS Client.release.xcconfig */;
+			baseConfigurationReference = 7F843C4287BDF11C8A3DCB06 /* Pods-WispletAWSClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				DEVELOPMENT_TEAM = MZ25F59X25;
 				INFOPLIST_FILE = "Wisplet AWS Client/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.WispletAWSClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Wisplet AWS Client/WispletAWSClient-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

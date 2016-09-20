@@ -41,16 +41,20 @@
 }
 
 -(float)getMinPossibleValue {
+    NSLog(@"+getMinPossibleValue: %f", self.mMinPossibleValue);
     return self.mMinPossibleValue;
 }
 
 -(float)getMaxPossibleValue {
+    NSLog(@"+getMaxPossibleValue: %f", self.mMaxPossibleValue);
     return self.mMaxPossibleValue;
 }
 
 -(float)getCurrentValue {
+    NSLog(@"+getCurrentValue: %f", self.mCurrentValue);
     return self.mCurrentValue;
 }
+
 
 -(NSString*)getCurrentValueString {
     return self.mCurrentValueString;
