@@ -18,7 +18,7 @@ import Foundation
 //WARNING: To run this sample correctly, you must set the following constants.
 
 // Values for AWS account instance
-let AwsRegion = AWSRegionType.USEast1 // REQUIRED. e.g. AWSRegionType.USEast1
+let AwsRegion = AWSRegionType.usEast1 // REQUIRED. e.g. AWSRegionType.usEast1
 let CognitoIdentityPoolId = "us-east-1:e2ed4297-61bb-5b17-af96-f7c31d8799f7" // REQUIRED
 let CertificateSigningRequestCommonName = "IoTSampleSwift Application"
 let CertificateSigningRequestCountryName = "Your Country"

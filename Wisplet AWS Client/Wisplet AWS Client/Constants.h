@@ -13,7 +13,6 @@
 #define MAC_ADDRESS @"d89346423a48"
 
 
-
 // Nothing below here needs to be changed
 #define IOTAG_URL @"http://www.iotarchitecturegroup.com"
 #define SILICON_ENGINES_URL @"http://www.siliconengines.net"
