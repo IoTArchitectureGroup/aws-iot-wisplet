@@ -26,12 +26,13 @@ At a high level, the steps you’ll have to go through to run the app in conjunc
 - Attach your Wisplet to your local WiFi access point by choosing the appropriate WiFi access point when the Wisplet is scanning for visible WiFi networks, and then entering the passcode for your WiFi network.
 - Verify that your Wisplet is connecting to the IoT Architecture Group's AWS instance.
 - Create your own AWS instance with AWS IoT.
-- Create a ‘Thing’ to represent your Wisplet Eval Kit, in the AWS console, and generate a certificate for it.
-- Load your certificate files (private key file and certificate authority file) on your Wisplet, by connecting to it while it is running as a WiFi access point.  You will connect to it as an access point, then upload the two files using your computer's web browser.
+- Connecting Wisplet to your AWS Instance
+	- Create a ‘Thing’ to represent your Wisplet Eval Kit, in the AWS console, and generate a certificate for it.
+	- Load your certificate files (private key file and certificate authority file) on your Wisplet, by connecting to it while it is running as a WiFi access point.  You will connect to it as an access point, then upload the two files using your computer's web browser.
 - Create an **Identity Pool with support for unauthenticated identities**, to allow the iOS app to connect without require loading certs in the app too (although you can install certs in an iOS app if you prefer that to using an unauthorized user pool).
 - Add your AWS instance’s region, Cognito identity pool id, and AWS IoT policy name to **Constants.swift**, and add your Wisplet’s MAC address to **Constants.h**
 
-When building the sample iOS app, remember that the AWS IoT SDK for iOS gets installed via CocoaPods, so you will need to run **pod install** after downloading the code.  See the [AWS SDK iOS Sample](https://github.com/awslabs/aws-sdk-ios-samples/tree/master/IoT-Sample/Swift) for more detailed instructions.  You will also need to launch from the **Wisplet AWS Client.xcworkspace** file instead of the **.xcodeproj** in Xcode.
+When building the sample iOS app, remember that the **AWS IoT SDK** for **iOS** gets installed via CocoaPods, so you will need to run **pod install** after downloading the code.  See the **[AWS SDK iOS Sample](https://github.com/awslabs/aws-sdk-ios-samples/tree/master/IoT-Sample/Swift)** for more detailed instructions.  You will also need to launch from the **Wisplet AWS Client.xcworkspace** file instead of the **.xcodeproj** in Xcode.
 
 ## Connecting the Wisplet Eval Kit to your WiFi Network
 Like many IoT products today, the Wisplet Eval Kit must first be configured to be able to attach to your local WiFi network.
@@ -92,20 +93,79 @@ The same account credentials will work in the iOS mobile app, the Android mobile
 This server plus the associated apps are merely a simple example to help demonstrate some of the features of the Wisplet.  Customers who integrate the Wisplet into their own products will implement their own cloud-based systems.  The IoT Architecture Group can also do this, or help customers find a partner to develop a cloud server and mobile apps.
 
 ## Connecting Wisplet to your AWS Instance
-The Wisplet Eval Kit comes pre-configured to connect to the IoT Architecture Group's AWS instance.  When you are ready to connect the Wisplet Eval Kit to your own AWS instance, you will need to upload your AWS certificates to it.
+The Wisplet Eval Kit comes pre-configured to connect to the IoT Architecture Group's AWS instance.  When you are ready to connect the Wisplet Eval Kit to **your own AWS instance**, you will need to perform a few actions to **define and enable the IoT device in your AWS instance**, and **configure your Wisplet device with credentials and settings to connect to your AWS instance**.
 
-You will need the certificate, the private key, and the root CA files for your AWS instance.  
+If you have not already created your own AWS account and instance, you can do so by following **[Amazon's instructions](http://docs.aws.amazon.com/iot/latest/developerguide/iot-console-signin.html)**.
 
-You can generate and download these using Amazon's web interface at **https://aws.amazon.com**
+For many things you will need to do to your AWS instance, there are two ways to accomplish them: the AWS [Command Line Interface (CLI)](https://aws.amazon.com/cli/), and the [AWS Console web interface](https://console.aws.amazon.com/iot/home?region=us-east-1#/dashboard). The instructions below will focus on using the AWS Console web interface.
 
-If you have installed the AWS CLI (command line interface) tool on your computer, you can generate and download these files using these AWS CLI commands:
+You will be creating three items via the AWS Console: a thing, a certificate, and a policy. And you will be linking these together using the AWS Console. Then you will be able to configure your Wisplet Eval Kit to communicate with this AWS instance.
 
-* `aws --output text iot describe-endpoint`
-* `aws iot create-keys-and-certificate --set-as-active --certificate-pem-outfile cert.pem --public-key-outfile public.key --private-key-outfile private.key`
-* `aws iot attach-principal-policy --policy-name test-thing-1-policy --principal arn:aws:iot:us-east-1:xxxxxxxxxxxxx:cert/yyyyyyyyyyyyyyyyyyyyyyyy`
-* `curl -o rootca.pem https://www.symantec.com/content/en/us/enterprise/verisign/roots/VeriSign-Class%203-Public-Primary-Certification-Authority-G5.pem`
+We will explain below how to do everything necessary, but Amazon does have a good online document with instructions for setting up an AWS instance and connecting an 'AWS IoT Button' to it,  [here](http://docs.aws.amazon.com/iot/latest/developerguide/create-device.html). Setting up a Wisplet is very similar to setting up an AWS IoT Button, but there are a few differences.
 
-Once you have these files on your computer you are ready to connect to the Wisplet Wi-Fi access point and web interface, navigate to each of these files in turn, and let your browser upload them to the Wisplet.
+### **1. Create a thing**
+
+To begin, once you have your own AWS instance, you will need to **create a device in the Thing Registry** to represent your Wisplet Eval Kit. 
+
+![](documentation/screenshots/create a thing.png)
+
+
+Basically you just need to create a thing and give it a name. 'my-wisplet' is a completely adequate name.
+
+After this step, you should see this:
+![](documentation/screenshots/after create a thing.png)
+
+
+
+Press the 'Create a resource' button near the top, to get the menu of choices then choose 'Create a certificate'
+
+![](documentation/screenshots/create a certificate.png)
+
+
+### **2. Create a certificate**
+
+Next, continue following Amazon's instructions, '**Create and Activate a Device Certificate**', [here](http://docs.aws.amazon.com/iot/latest/developerguide/create-device-certificate.html) 
+
+Basically just create a certificate. You can select 'one-click activate' if you choose. We'll have to activate it at some point so it's fine to do it now.
+
+***It is very important that when you do this you download the private key at this point!*** As the screenshot of the AWS Console web page says, 'Certificates can be retrieved at any time, **but the private and public keys will not be retrievable after closing this form**.'
+
+You will need the **private key** file and the **certificate** file from this step to install on your Wisplet Eval Kit to allow the Wisplet to connect to your AWS instance, so be sure to download them at this point. Go ahead and download the public key while you are here, although you really will not need it.
+
+Clicking on them in Chrome will download the files. Your browser may require right-clicking, or control-click. Safari on Mac displays the contents in a pop-up window and encourages you to copy the contents. You can copy the contents of each file this way if necessary, though it's more cumbersome than using a browser that lets you just save the original files out.
+
+![](documentation/screenshots/create a policy.png)
+
+### **3. Create a policy**
+
+Continue following the instructions from Amazon.  After '**[Create and Activate a Device Certificate](http://docs.aws.amazon.com/iot/latest/developerguide/create-device-certificate.html)**', you will need to follow the instructions in the next three sections ('**[Create an AWS IoT Policy](http://docs.aws.amazon.com/iot/latest/developerguide/create-device-certificate.html)**',
+'**[Attach an AWS IoT Policy to a Device Certificate](http://docs.aws.amazon.com/iot/latest/developerguide/attach-policy-to-certificate.html)**', and '**[Attach a Thing to a Certificate](http://docs.aws.amazon.com/iot/latest/developerguide/attach-cert-thing.html)**').
+
+Click 'Create a policy' and then in the resulting form, enter a name for your policy. We suggest 'PubSubAnyTopic'. For the second field, 'Action', enter 'iot:\*'. Finally, for 'Resource', enter '\*', then click the checkbox by 'Allow'. (This tells AWS IoT that you can use this policy for multiple devices.)
+
+![](documentation/screenshots/create a policy values.png)
+
+Then press the 'Add statement' button. 
+
+At this point the 'Create' button will become enabled, so you can click it to create the policy.
+
+You now need to connect these three resources you have (policy, certificate, thing). Select the certficicate by clicking in the checkbox. Then you can click on 'Actions' to reveal a menu including 'Attach a policy' and 'Attach a thing'.
+
+![](documentation/screenshots/certificate actions.png)
+
+Use 'Attach a policy' and 'Attach a thing' to connect the policy and the thing to the certificate. You will be prompted for the policy or thing name, as appropriate.
+
+Once you have created a device, a certificate, and a policy, and connected them all via the AWS Console web interface, you will be ready to configure your Wisplet Eval Kit to communicate with your AWS instance.  
+
+You will use the certificate, the private key, and the root CA files for your thing you defined on your AWS instance.
+
+The same root CA certificate is used by all devices that communicate with AWS IoT. To download this certificate directly from Symantec, right-click [here](https://www.symantec.com/content/en/us/enterprise/verisign/roots/VeriSign-Class%203-Public-Primary-Certification-Authority-G5.pem) and save the file locally. You can also find this link to the root CA certificate in the AWS IoT web console if you click on a specific certificate you have created there.
+
+You need one more piece of information.  Click on the thing you defined. You will details revealed on the right, including 'REST API endpoint'. Make a note of the value. It will be something like **https://a3st4fylujca4h.iot.us-east-1.amazonaws.com/things/my-wisplet/shadow** The portion we care about, in this example, is **a3st4fylujca4h.iot.us-east-1.amazonaws.com** This is the hostname of the AWS IoT MQTT broker.
+
+### **Configure Wisplet to connect to your AWS instance**
+
+Once you have the root CA certificate, and the private key file and certficate file for your thing (which you downloaded when you created the certificate), and the MQTT broker hostname, you are ready to connect to the Wisplet Wi-Fi access point and web interface, navigate to each of these files in turn, and let your browser upload them to the Wisplet.
 
 To connect to the Wisplet in WiFi access-point mode, press-and-hold the WiFi config button on the Wisplet kit again, and once again connect to the Access Point the Wisplet presents at URL **http://device.config** or **http://172.18.0.1**
 
@@ -115,10 +175,15 @@ You will then see this page:
 
 ![Wisplet AWS instance config](Wisplet AWS Client/wisplet-device-config-custom-server-page.png)
 
+Upload the certificate file, the private key file, and the root CA file using the top part of the web page.
 
 **It is very important to have no extra white-space after the content of those file.**  Specifically, after the end of the last line of text, you should have only a CR/LF.  In other words, when viewed in a text editor, your cursor should be at the start of the FIRST EMPTY LINE after the last line of text, if you scroll to the bottom of the key or cert file.
 
-Fill in the Broker Address and Peer CN fields to match your AWS instance.  **The Broker Address is obtained from the describe-endpoint command.** Set Keep-Alive to 20 minutes.
+Fill in the Broker Address and Peer CN fields to match your AWS instance.  **The Broker Address was obtained from the 'REST API endpoint' value for your thing.** For example, **a3st4fylujca4h.iot.us-east-1.amazonaws.com**
+
+For the Peer CN field, use the broker address but replace the first portion with a *, for example: **\*.iot.us-east-1.amazonaws.com**
+
+Set Keep-Alive to 20 minutes.
 
 Set the '**Override**' value to 1 (yes) to connect to YOUR AWS instance.
 
@@ -138,7 +203,7 @@ The heart of the app is essentially three classes:
 - **SensorBoardViewController.m**, which gets notified when any MQTT messages come in and displays the current values to the user.  It also allows the user to send an update command to the one read/write parameter (the ‘Stat’ parameter) by sliding the bottom slider and releasing.  This allows you to see how to send a control message to a Wisplet.
 
 #### AWSConnection.swift
-This is essentially a simplified version of the AWS Iot SDK demo for iOS.  At the time of this writing, that demo app is only available from AWS’s github as Swift (not Objective-C).
+This is essentially a simplified version of the **[AWS Iot SDK demo for iOS](https://github.com/awslabs/aws-sdk-ios-samples/tree/master/IoT-Sample/Swift)** from the AWS Labs github.  At the time of this writing, that demo app is only available from AWS’s github as **Swift** (not Objective-C).
 
 As the connection to AWS IoT’s MQTT broker is established, **AWSConnection.swift** calls in to a method on the **AppDelegate** class, which stores the string representing the connection state.  **AppDelegate** is (in addition to its normal function) essentially a delegate that receives these notifications, but is not technically implemented as a proper delegate implementing a protocol simply due to the fact that the **AWSConnection** class is Swift rather than Objective-C.
 
