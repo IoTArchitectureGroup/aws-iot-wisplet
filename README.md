@@ -17,7 +17,7 @@ These six parameters will send their values up to the MQTT broker periodically. 
 
 The app will let you see values of all six parameters, and will let you send values down to the ‘Stat’ display by sliding and releasing an on-screen slider.
 
-You can watch the MQTT messages that pass between the Wisplet Eval Kit and the AWS IoT broker in the Xcode console while running the app in the iOS-device simulator (or on a real device cabled-up to your Mac).
+You can watch the MQTT messages that pass between the Wisplet Eval Kit and the AWS IoT broker in the Xcode console while running the app in the iOS-device simulator (or on a real device cabled-up to your Mac). UPDATE: Unfortunately due to a new security issue with the iOS simulator with Xcode 8.0 at the time of this writing (11 Oct 2016), you CANNOT at the moment connect to AWS from the iOS simualtor. This issue only affects the simulator though--not any actual iOS devices.
 
 ## Getting Started
 
@@ -181,7 +181,7 @@ Upload the certificate file, the private key file, and the root CA file using th
 
 Fill in the Broker Address and Peer CN fields to match your AWS instance.  **The Broker Address was obtained from the 'REST API endpoint' value for your thing.** For example, **a3st4fylujca4h.iot.us-east-1.amazonaws.com**
 
-For the Peer CN field, use the broker address but replace the first portion with a *, for example: **\*.iot.us-east-1.amazonaws.com**
+For the Peer CN field, use the broker address but replace the first portion with a *, for example: \*.iot.us-east-1.amazonaws.com
 
 Set Keep-Alive to 20 minutes.
 
@@ -195,10 +195,15 @@ Note that the Safari browser is not able to upload files through this web interf
 
 **Should you need to point the Wisplet back to the IoT Architecture Group's instance** (for example, to try one of the IoT Architecture Group's other examples, or to push new IoT rulesets to the Wisplet) **you can temporarily do so by setting Override to 0 in this configuration page**.  Doing so will NOT delete the config files and settings that you set for your own AWS instance, so you can switch back and forth between instances relatively easily, without needing to perform the cert/key file uploads again each time.
 
+##Additional AWS Configuration for the Wisplet sample app
+Follow the instructions in **step 3** under '**Using the Sample**' in the instructions for the [**AWS IoT SDK demo for iOS**](https://github.com/awslabs/aws-sdk-ios-samples/tree/master/IoT-Sample/Swift). 
+
+When you have created the **unauthenticated user pool** and configured it with the correct policy allowing IoT, you will need three values to configure your app at build-time: the **AwsRegion**, the **CognitoIdentityPoolId**, and the **PolicyName**. We recommend for PolicyName you just use "PubSubToAnyTopic". Enter these values in the appropriate places in **Contants.swift** included with the Wisplet AWS Client project.
+
 ## Code overview
 The heart of the app is essentially three classes:
 
-- **AWSConnection.swift**, which creates a certificate for the app to connect to your unauthenticated user pool and connects to the AWS IoT MQTT broker of your AWS instance.
+- **AWSConnection.swift**, which creates a certificate at runtime for this iOS app to connect to an unauthenticated user pool for your AWS instance, and connects to the AWS IoT MQTT broker of your AWS instance. 
 - **WispletDevice.m**, which encapsulates all the AWS IoT SDK for iOS MQTT calls, to subscribe to all MQTT message topics for which you wish to receive messages, and to publish MQTT messages that will reach the Wisplet (which has automatically subscribed to the necessary topics). This class also parses out MQTT payloads.
 - **SensorBoardViewController.m**, which gets notified when any MQTT messages come in and displays the current values to the user.  It also allows the user to send an update command to the one read/write parameter (the ‘Stat’ parameter) by sliding the bottom slider and releasing.  This allows you to see how to send a control message to a Wisplet.
 
