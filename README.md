@@ -29,7 +29,7 @@ At a high level, the steps you’ll have to go through to run the app in conjunc
 - Connecting Wisplet to your AWS Instance
 	- Create a ‘Thing’ to represent your Wisplet Eval Kit, in the AWS console, and generate a certificate for it.
 	- Load your certificate files (private key file and certificate authority file) on your Wisplet, by connecting to it while it is running as a WiFi access point.  You will connect to it as an access point, then upload the two files using your computer's web browser.
-- Create an **Identity Pool with support for unauthenticated identities**, to allow the iOS app to connect without require loading certs in the app too (although you can install certs in an iOS app if you prefer that to using an unauthorized user pool).
+- Create an **Identity Pool with support for unauthenticated identities**, to allow the iOS app to connect without requiring loading certs in the app too (although you *can* install certs in an iOS app if you prefer that to using an unauthenticated identity user pool).
 - Add your AWS instance’s region, Cognito identity pool id, and AWS IoT policy name to **Constants.swift**, and add your Wisplet’s MAC address to **Constants.h**
 
 When building the sample iOS app, remember that the **AWS IoT SDK** for **iOS** gets installed via CocoaPods, so you will need to run **pod install** after downloading the code.  See the **[AWS SDK iOS Sample](https://github.com/awslabs/aws-sdk-ios-samples/tree/master/IoT-Sample/Swift)** for more detailed instructions.  You will also need to launch from the **Wisplet AWS Client.xcworkspace** file instead of the **.xcodeproj** in Xcode.
